@@ -1,0 +1,5 @@
+# Ignore environment variables
+.env
+llm_project_1_venv
+datagen.py
+evaluate_latest.py
