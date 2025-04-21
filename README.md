@@ -77,8 +77,8 @@ Returns the content of the specified file.
 
 ```bash
 # Clone this repo
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/21f3002277/TDS-LLM-Project-1.git
+cd TDS-LLM-Project-1
 
 # Run the app using Docker
-podman run --rm -e AIPROXY_TOKEN=$AIPROXY_TOKEN -p 8000:8000 <your-dockerhub-username>/<image-name>
+podman run --rm -e AIPROXY_TOKEN=$AIPROXY_TOKEN -p 8000:8000 vikash2277/tds_project_1_llm
