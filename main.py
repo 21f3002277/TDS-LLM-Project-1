@@ -1,9 +1,15 @@
 # /// script
-# requires-python = ">=3.11"
+# requires-python = ">=3.12"
 # dependencies = [
 #   "fastapi",
 #   "httpx",
 #   "uvicorn",
+#   "requests",
+#   "numpy",
+#   "pillow",
+#   "duckdb",
+#   "bs4",
+#   "markdown",
 # ]
 # ///
 
@@ -68,6 +74,7 @@ Write `bash` or `python` scripts to execute the task. Follow these guidelines st
     - uv, the Python runner, is ALREADY installed. Run with `uv run [URL] [ARGUMENTS]`
     - Parse dates with `python-dateutil`
     - Sender email is in the `From: "Name <email@...>` header
+    - if the task is to extract the sender's email address,Returns only(e,g., "email@...") do not include any other text in the output file only email.
     - if the task is to extract only the card number from this image of a dummy credit card (e.g., "4396304456158206") and write it to the file at the given file_path. Return nothing else. Use OCR to read the number and regular expressions to extract only the 16-digit card number (remove any spaces or dashes). Do not include any other text in the output file.
     - When removing a prefix (e.g. `/data/docs/`) from a path, retain the path after the prefix
     - Call an LLM via a POST request to `http://aiproxy.sanand.workers.dev/openai/v1/chat/completions` with `Authorization: Bearer {os.getenv("AIPROXY_TOKEN")}` and this JSON body:
@@ -96,6 +103,7 @@ Write `bash` or `python` scripts to execute the task. Follow these guidelines st
             json={"model": "text-embedding-3-small", "input": data},
         )
     - When extracting card information, use the system prompt "Extract the EXACT dummy credit card number from this test image"
+    - Convert this Python code to use the httpx library instead of requests for all HTTP requests. Ensure that all synchronous requests are replaced with httpx equivalents, maintaining existing functionality. If any part uses asynchronous calls, convert them to use httpx.AsyncClient accordingly.
 
 2. **EXECUTION RULES:**
     - An automated agent will blindly run the scripts you provide. So ONLY write the FINAL script(s) to run in ```bash or ```python code fences.

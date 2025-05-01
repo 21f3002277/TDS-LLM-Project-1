@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     build-essential \
     libpq-dev \
+    python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
 # Download the latest installer
@@ -33,27 +34,41 @@ RUN curl -sL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh && \
 # Set working directory
 WORKDIR /app
 
+COPY requirements.txt /app/
+
+# Create and activate virtual environment
+RUN python3 -m venv /app/venv
+
+# Set venv as default Python environment
+ENV PATH="/app/venv/bin:$PATH"
+
+# Install dependencies into the venv using uv
+RUN uv pip install --upgrade pip setuptools wheel && \
+    uv pip install --no-cache-dir -r /app/requirements.txt
+
+
 # Install Python dependencies
-RUN uv pip install --system --no-cache-dir --upgrade pip setuptools wheel && \
-    uv pip install --system --no-cache-dir \
-    fastapi \
-    uvicorn[standard] \
-    requests \
-    httpx \
-    pandas \
-    numpy \
-    duckdb \
-    scipy \
-    sqlalchemy \
-    psycopg2-binary \
-    asyncpg \
-    torch \
-    scikit-learn \
-    pillow \
-    beautifulsoup4 \
-    markdown \
-    markdown2 \
-    python-dateutil
+#RUN uv pip install --system --no-cache-dir --upgrade pip setuptools wheel && \
+#uv pip install --system --no-cache-dir \
+#fastapi \
+#uvicorn[standard] \
+#requests \
+#httpx \
+#pandas \
+#numpy \
+#duckdb \
+#scipy \
+#sqlalchemy \
+#psycopg2-binary \
+#asyncpg \
+#torch \
+#pillow \
+#scikit-learn \
+#markdown \
+#markdown2 \
+#python-dateutil \
+#bs4 \
+#beautifulsoup4 
 
 # Copy application code
 COPY main.py /app/
@@ -61,6 +76,7 @@ COPY static /app/static
 
 # Create data directory
 RUN mkdir -p /data
+
 
 ## Run the application
 CMD ["uv", "run", "main.py"]
